@@ -1,12 +1,17 @@
 import { Product } from "@/hook/ProductContext";
 
-export const searchProducts = async (searchText: string) => {
+export const searchProducts = async (
+  searchText: string,
+  sortOption: string
+) => {
   try {
     const response = await fetch(
-      `https://api.mercadolibre.com/sites/MLA/search?q=${searchText}&limit=10`
+      `https://api.mercadolibre.com/sites/MLA/search?q=${searchText}&sort=${sortOption}&limit=10`
     );
     const data = await response.json();
     const products = data.results.map((product: any) => {
+      const installments = product.installments || { quantity: 0, amount: 0 };
+
       return {
         id: product.id,
         title: product.title,
@@ -16,8 +21,8 @@ export const searchProducts = async (searchText: string) => {
           decimals: 0,
         },
         installments: {
-          quantity: product.installments.quantity,
-          amount: product.installments.amount,
+          quantity: installments.quantity,
+          amount: installments.amount,
         },
         address: {
           state_name: product.address.state_name,
