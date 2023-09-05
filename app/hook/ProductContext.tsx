@@ -24,6 +24,8 @@ export interface Product {
 interface ProductContextProps {
   products: Product[];
   setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  selectedSort: string;
+  setSelectedSort: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface ProductProviderProps {
@@ -36,8 +38,12 @@ const ProductContext = createContext<ProductContextProps | undefined>(
 
 export const ProductProvider = ({ children }: ProductProviderProps) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedSort, setSelectedSort] = useState("relevance");
 
-  const value = useMemo(() => ({ products, setProducts }), [products]);
+  const value = useMemo(
+    () => ({ products, setProducts, selectedSort, setSelectedSort }),
+    [products, selectedSort]
+  );
 
   return (
     <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
