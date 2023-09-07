@@ -42,6 +42,8 @@ interface ProductContextProps {
   setMinPrice: React.Dispatch<React.SetStateAction<string>>;
   maxPrice: string;
   setMaxPrice: React.Dispatch<React.SetStateAction<string>>;
+  searchTriggered: boolean;
+  setSearchTriggered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface ProductProviderProps {
@@ -60,6 +62,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   const [minPrice, setMinPrice] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
   const [selectedPriceFilter, setSelectedPriceFilter] = useState<string>("");
+  const [searchTriggered, setSearchTriggered] = useState(false);
 
   const value = useMemo(
     () => ({
@@ -77,6 +80,8 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
       setMinPrice,
       maxPrice,
       setMaxPrice,
+      searchTriggered,
+      setSearchTriggered,
     }),
     [
       products,
@@ -86,6 +91,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
       priceFilters,
       minPrice,
       maxPrice,
+      searchTriggered,
     ]
   );
 

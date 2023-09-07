@@ -1,7 +1,8 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useContext, useState } from "react";
 import SearchIcon from "@/public/serchIcon.svg";
 import Image from "next/image";
 import { Container } from "@/components/SearchBar/SearchBar.style";
+import { useProductContext } from "@/hook/ProductContext";
 
 interface SearchBarProps {
   onSearch: (searchText: string) => void;
@@ -9,9 +10,11 @@ interface SearchBarProps {
 
 export function SearchBar({ onSearch }: SearchBarProps) {
   const [searchText, setSearchText] = useState("");
+  const { setSearchTriggered } = useProductContext();
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    setSearchTriggered(true);
     onSearch(searchText);
   };
 

@@ -8,10 +8,15 @@ interface SortProps {
 }
 
 export function Sort({ sortOptions, onSortChange }: SortProps) {
-  const { sortOption: selectedSort } = useProductContext();
+  const { sortOption: selectedSort, searchTriggered } = useProductContext();
+
+  if (!searchTriggered) {
+    return null;
+  }
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSortOption = event.target.value;
+
     onSortChange(newSortOption);
   };
 

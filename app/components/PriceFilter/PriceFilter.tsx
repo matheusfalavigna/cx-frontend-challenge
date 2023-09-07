@@ -56,36 +56,40 @@ export function PriceFilter({ onPriceFilterChange }: PriceFilterProps) {
   };
 
   return (
-    <Container>
-      <span>Preço</span>
-      <ul>
-        {priceFilters.map((filter) => (
-          <li key={filter.id}>
-            <a href="#" onClick={() => onPriceFilterChange(filter.id)}>
-              {filter.name.replace("Hasta", "Até").replace("Más", "Mais")} (
-              {filter.results})
-            </a>
-          </li>
-        ))}
-      </ul>
-      <Content>
-        <input
-          type="text"
-          placeholder="Mínimo"
-          value={minPrice}
-          onChange={handleMinPriceChange}
-        />
-        <span>-</span>
-        <input
-          type="text"
-          placeholder="Máximo"
-          value={maxPrice}
-          onChange={handleMaxPriceChange}
-        />
-        <button onClick={applyCustomPriceFilter}>
-          <Image src={RightArrow} alt="Seta" width={20} height={20} />
-        </button>
-      </Content>
-    </Container>
+    <>
+      {priceFilters.length > 0 && (
+        <Container>
+          <span>Preço</span>
+          <ul>
+            {priceFilters.map((filter) => (
+              <li key={filter.id}>
+                <a href="#" onClick={() => onPriceFilterChange(filter.id)}>
+                  {filter.name.replace("Hasta", "Até").replace("Más", "Mais")} (
+                  {filter.results})
+                </a>
+              </li>
+            ))}
+          </ul>
+          <Content>
+            <input
+              type="text"
+              placeholder="Mínimo"
+              value={minPrice}
+              onChange={handleMinPriceChange}
+            />
+            <span>-</span>
+            <input
+              type="text"
+              placeholder="Máximo"
+              value={maxPrice}
+              onChange={handleMaxPriceChange}
+            />
+            <button onClick={applyCustomPriceFilter}>
+              <Image src={RightArrow} alt="Seta" width={20} height={20} />
+            </button>
+          </Content>
+        </Container>
+      )}
+    </>
   );
 }
