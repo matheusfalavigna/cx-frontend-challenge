@@ -5,9 +5,8 @@ import { Header } from "@/components/Header/Header";
 import { Dashboard } from "@/components/Dashboard/Dashboard";
 
 function HomePage() {
-  const { setProducts, setSelectedSort } = useProductContext();
-  const [searchText, setSearchText] = useState("");
-  const [sortOption, setSortOption] = useState("relevance");
+  const { setProducts, setSearchText, setSortOption, sortOption } =
+    useProductContext();
 
   async function heandleSearch(searchText: string) {
     setSearchText(searchText);
@@ -16,17 +15,12 @@ function HomePage() {
 
   function handleSortChange(newSortOption: string) {
     setSortOption(newSortOption);
-    setSelectedSort(newSortOption);
   }
 
   return (
     <>
       <Header onSearch={heandleSearch} />
-      <Dashboard
-        searchText={searchText}
-        sortOption={sortOption}
-        onSortChange={handleSortChange}
-      />
+      <Dashboard onSortChange={handleSortChange} />
     </>
   );
 }

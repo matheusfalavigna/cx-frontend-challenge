@@ -7,7 +7,7 @@ export const Container = styled.div`
   li {
     width: 100%;
     list-style: none;
-    max-width: 70rem;
+    max-width: 53.125rem;
     background: var(--background-card);
 
     display: flex;

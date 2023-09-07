@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "./Card.style";
 import Image from "next/image";
-import Entrega from "@/public/entrega.svg";
+import FreeShipping from "@/public/freeShipping.svg";
 
 interface ProductCardProps {
   product: {
@@ -35,7 +35,7 @@ export function Card({ product }: ProductCardProps) {
             }).format(product.price.amount)}
             {product.free_shipping && (
               <Image
-                src={Entrega}
+                src={FreeShipping}
                 alt="Icone de frete grátis"
                 width={18}
                 height={18}

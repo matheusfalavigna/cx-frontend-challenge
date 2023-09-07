@@ -21,11 +21,27 @@ export interface Product {
   free_shipping: boolean;
 }
 
+export interface Filters {
+  id: string;
+  name: string;
+  results: number;
+}
+
 interface ProductContextProps {
   products: Product[];
   setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
-  selectedSort: string;
-  setSelectedSort: React.Dispatch<React.SetStateAction<string>>;
+  searchText: string;
+  setSearchText: React.Dispatch<React.SetStateAction<string>>;
+  sortOption: string;
+  setSortOption: React.Dispatch<React.SetStateAction<string>>;
+  selectedPriceFilter: string;
+  setSelectedPriceFilter: React.Dispatch<React.SetStateAction<string>>;
+  priceFilters: Filters[];
+  setPriceFilters: React.Dispatch<React.SetStateAction<Filters[]>>;
+  minPrice: string;
+  setMinPrice: React.Dispatch<React.SetStateAction<string>>;
+  maxPrice: string;
+  setMaxPrice: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface ProductProviderProps {
@@ -38,11 +54,39 @@ const ProductContext = createContext<ProductContextProps | undefined>(
 
 export const ProductProvider = ({ children }: ProductProviderProps) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [selectedSort, setSelectedSort] = useState("relevance");
+  const [searchText, setSearchText] = useState("");
+  const [sortOption, setSortOption] = useState("relevance");
+  const [priceFilters, setPriceFilters] = useState<Filters[]>([]);
+  const [minPrice, setMinPrice] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<string>("");
+  const [selectedPriceFilter, setSelectedPriceFilter] = useState<string>("");
 
   const value = useMemo(
-    () => ({ products, setProducts, selectedSort, setSelectedSort }),
-    [products, selectedSort]
+    () => ({
+      products,
+      setProducts,
+      sortOption,
+      setSortOption,
+      searchText,
+      setSearchText,
+      selectedPriceFilter,
+      setSelectedPriceFilter,
+      priceFilters,
+      setPriceFilters,
+      minPrice,
+      setMinPrice,
+      maxPrice,
+      setMaxPrice,
+    }),
+    [
+      products,
+      searchText,
+      sortOption,
+      selectedPriceFilter,
+      priceFilters,
+      minPrice,
+      maxPrice,
+    ]
   );
 
   return (
