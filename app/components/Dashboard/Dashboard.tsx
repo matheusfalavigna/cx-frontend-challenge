@@ -2,22 +2,22 @@ import React, { useEffect } from "react";
 import { Container, Content } from "./Dashboard.style";
 import { Sort } from "../Sort/Sort";
 import { ProductList } from "../ProductList/ProductList";
-import { useProductContext } from "@/hook/ProductContext";
+import { useSelector, useDispatch } from "react-redux";
 import { searchProducts } from "@/services/products";
 import { PriceFilter } from "../PriceFilter/PriceFilter";
+import { setProducts } from "@/hook/productsSlice";
+import { setSelectedPriceFilter } from "@/hook/filtersSlice";
 
 interface DashboardProps {
   onSortChange: (newSortOption: string) => void;
 }
 
 export function Dashboard({ onSortChange }: DashboardProps) {
-  const {
-    searchText,
-    sortOption,
-    selectedPriceFilter,
-    setProducts,
-    setSelectedPriceFilter,
-  } = useProductContext();
+  const dispatch = useDispatch();
+  const { searchText, sortOption } = useSelector(
+    (state: any) => state.products
+  );
+  const { selectedPriceFilter } = useSelector((state: any) => state.filters);
 
   const sortOptions = [
     {
@@ -42,17 +42,17 @@ export function Dashboard({ onSortChange }: DashboardProps) {
           sortOption,
           selectedPriceFilter
         );
-        setProducts(filteredProducts);
+        dispatch(setProducts(filteredProducts));
       } catch (error) {
         console.error("Erro ao buscar produtos:", error);
       }
     }
 
     fetchProducts();
-  }, [searchText, sortOption, selectedPriceFilter]);
+  }, [searchText, sortOption, selectedPriceFilter, dispatch]);
 
   const handlePriceFilterChange = (priceFilter: string) => {
-    setSelectedPriceFilter(priceFilter);
+    dispatch(setSelectedPriceFilter(priceFilter));
   };
 
   return (
