@@ -52,11 +52,11 @@ export const Container = styled.div`
     .address {
       max-width: 20rem;
       flex-direction: row-reverse;
-      margin: 2.5rem 6rem 0 0;
+      margin: 1.2rem 6rem 0 0;
       color: var(--text-adress);
 
       p {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
       }
     }
   }
