@@ -10,9 +10,19 @@ import {
   setSortOption,
 } from "@/hook/productsSlice";
 
+import { Product } from "@/types/types";
+
+interface RowStateWithProducts extends Product {
+  products: {
+    sortOption: string;
+  };
+}
+
 function HomePage() {
   const dispatch = useDispatch();
-  const { sortOption } = useSelector((state: any) => state.products);
+  const { sortOption } = useSelector(
+    (state: RowStateWithProducts) => state.products
+  );
 
   async function heandleSearch(searchText: string) {
     dispatch(setSearchText(searchText));

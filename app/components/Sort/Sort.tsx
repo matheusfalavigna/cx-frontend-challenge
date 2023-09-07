@@ -1,6 +1,14 @@
 import React from "react";
 import { Container } from "./Sort.style";
 import { useSelector } from "react-redux";
+import { Product } from "@/types/types";
+
+interface RowStateWithProducts extends Product {
+  products: {
+    sortOption: string;
+    products: Product[];
+  };
+}
 
 interface SortProps {
   sortOptions: { id: string; name: string }[];
@@ -9,7 +17,7 @@ interface SortProps {
 
 export function Sort({ sortOptions, onSortChange }: SortProps) {
   const { sortOption: selectedSort, products } = useSelector(
-    (state: any) => state.products
+    (state: RowStateWithProducts) => state.products
   );
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
