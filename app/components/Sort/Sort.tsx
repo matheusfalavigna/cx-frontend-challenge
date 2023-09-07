@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "./Sort.style";
-import { useProductContext } from "@/hook/ProductContext";
+import { useSelector } from "react-redux";
 
 interface SortProps {
   sortOptions: { id: string; name: string }[];
@@ -8,11 +8,9 @@ interface SortProps {
 }
 
 export function Sort({ sortOptions, onSortChange }: SortProps) {
-  const { sortOption: selectedSort, searchTriggered } = useProductContext();
-
-  if (!searchTriggered) {
-    return null;
-  }
+  const { sortOption: selectedSort, products } = useSelector(
+    (state: any) => state.products
+  );
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSortOption = event.target.value;
@@ -21,15 +19,23 @@ export function Sort({ sortOptions, onSortChange }: SortProps) {
   };
 
   return (
-    <Container>
-      <label>Ordenar por </label>
-      <select id="sortSelect" value={selectedSort} onChange={handleSortChange}>
-        {sortOptions.map((option) => (
-          <option key={option.id} value={option.id}>
-            {option.name}
-          </option>
-        ))}
-      </select>
-    </Container>
+    <>
+      {!!products.length && (
+        <Container>
+          <label>Ordenar por </label>
+          <select
+            id="sortSelect"
+            value={selectedSort}
+            onChange={handleSortChange}
+          >
+            {sortOptions.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+        </Container>
+      )}
+    </>
   );
 }
