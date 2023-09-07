@@ -89,10 +89,6 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     ]
   );
 
-  console.log("priceFilters", value.priceFilters);
-  console.log("minPrice", value.minPrice);
-  console.log("maxPrice", value.maxPrice);
-
   return (
     <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
   );
