@@ -60,4 +60,20 @@ export const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 768px) {
+    li {
+      flex-direction: column;
+
+      .img {
+        width: 100%;
+        max-width: 20rem;
+        margin: 0 auto;
+      }
+
+      .address {
+        margin: 0.4rem auto;
+      }
+    }
+  }
 `;

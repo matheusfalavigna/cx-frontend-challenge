@@ -28,6 +28,11 @@ export const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 320px) {
+    position: relative;
+    bottom: 4rem;
+  }
 `;
 
 export const Content = styled.div`

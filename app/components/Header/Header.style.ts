@@ -20,4 +20,8 @@ export const Content = styled.div`
     max-width: 3rem;
     border-radius: 50%;
   }
+
+  @media (max-width: 320px) {
+    gap: 1rem;
+  }
 `;
