@@ -37,4 +37,9 @@ export const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 320px) {
+    position: relative;
+    top: 9rem;
+  }
 `;

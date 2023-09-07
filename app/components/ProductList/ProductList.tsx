@@ -1,5 +1,4 @@
 import React from "react";
-// import { useProductContext } from "@/hook/ProductContext";
 import { Card } from "../Card/Card";
 import { Container } from "./ProductList.style";
 import { useSelector } from "react-redux";

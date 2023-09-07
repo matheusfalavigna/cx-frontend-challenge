@@ -7,6 +7,20 @@ import { searchProducts } from "@/services/products";
 import { PriceFilter } from "../PriceFilter/PriceFilter";
 import { setProducts } from "@/hook/productsSlice";
 import { setSelectedPriceFilter } from "@/hook/filtersSlice";
+import { Filters, Product } from "@/types/types";
+
+interface RowStateWithProducts extends Product {
+  products: {
+    searchText: string;
+    sortOption: string;
+  };
+}
+
+interface RowStateWithFilters extends Filters {
+  filters: {
+    selectedPriceFilter: string;
+  };
+}
 
 interface DashboardProps {
   onSortChange: (newSortOption: string) => void;
@@ -15,9 +29,11 @@ interface DashboardProps {
 export function Dashboard({ onSortChange }: DashboardProps) {
   const dispatch = useDispatch();
   const { searchText, sortOption } = useSelector(
-    (state: any) => state.products
+    (state: RowStateWithProducts) => state.products
   );
-  const { selectedPriceFilter } = useSelector((state: any) => state.filters);
+  const { selectedPriceFilter } = useSelector(
+    (state: RowStateWithFilters) => state.filters
+  );
 
   const sortOptions = [
     {

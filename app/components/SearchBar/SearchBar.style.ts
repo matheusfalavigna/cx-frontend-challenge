@@ -27,4 +27,16 @@ export const Container = styled.form`
     width: 100%;
     height: 1.2rem;
   }
+
+  @media (max-width: 320px) {
+    input {
+      width: 85%;
+      padding-inline-start: 0.2rem;
+      font-size: 0.7rem;
+    }
+
+    button {
+      width: 15%;
+    }
+  }
 `;
