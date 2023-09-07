@@ -1,20 +1,26 @@
-import React, { useState } from "react";
-import { ProductProvider, useProductContext } from "../hook/ProductContext";
+import React from "react";
 import { searchProducts } from "@/services/products";
 import { Header } from "@/components/Header/Header";
 import { Dashboard } from "@/components/Dashboard/Dashboard";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import store from "@/hook/store";
+import {
+  setProducts,
+  setSearchText,
+  setSortOption,
+} from "@/hook/productsSlice";
 
 function HomePage() {
-  const { setProducts, setSearchText, setSortOption, sortOption } =
-    useProductContext();
+  const dispatch = useDispatch();
+  const { sortOption } = useSelector((state: any) => state.products);
 
   async function heandleSearch(searchText: string) {
-    setSearchText(searchText);
-    setProducts(await searchProducts(searchText, sortOption));
+    dispatch(setSearchText(searchText));
+    dispatch(setProducts(await searchProducts(searchText, sortOption)));
   }
 
   function handleSortChange(newSortOption: string) {
-    setSortOption(newSortOption);
+    dispatch(setSortOption(newSortOption));
   }
 
   return (
@@ -27,9 +33,9 @@ function HomePage() {
 
 function App() {
   return (
-    <ProductProvider>
+    <Provider store={store}>
       <HomePage />
-    </ProductProvider>
+    </Provider>
   );
 }
 

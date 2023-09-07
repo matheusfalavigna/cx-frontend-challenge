@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Container } from "@/components/SearchBar/SearchBar.style";
 
 interface SearchBarProps {
-  onSearch: (searchText: string) => void;
+  onSearch(searchText: string): void;
 }
 
 export function SearchBar({ onSearch }: SearchBarProps) {

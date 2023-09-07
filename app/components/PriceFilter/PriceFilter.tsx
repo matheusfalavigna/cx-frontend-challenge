@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getAvailableFilters } from "@/services/products";
 import { Container, Content } from "./PriceFilter.style";
 import Image from "next/image";
 import RightArrow from "@/public/rightArrow.svg";
-import { useProductContext } from "@/hook/ProductContext";
+import { setMaxPrice, setMinPrice, setPriceFilters } from "@/hook/filtersSlice";
+import { Filters } from "@/types/types";
 
-interface Filters {
-  id: string;
-  name: string;
-  results: number;
+interface RowStateWithFilters extends Filters {
+  filters: {
+    searchText: string;
+    priceFilters: Filters[];
+    minPrice: string;
+    maxPrice: string;
+  };
 }
 
 interface PriceFilterProps {
@@ -16,15 +21,11 @@ interface PriceFilterProps {
 }
 
 export function PriceFilter({ onPriceFilterChange }: PriceFilterProps) {
-  const {
-    searchText,
-    minPrice,
-    maxPrice,
-    setMinPrice,
-    setMaxPrice,
-    priceFilters,
-    setPriceFilters,
-  } = useProductContext();
+  const dispatch = useDispatch();
+  const { priceFilters, minPrice, maxPrice } = useSelector(
+    (state: RowStateWithFilters) => state.filters
+  );
+  const { searchText, products } = useSelector((state: any) => state.products);
 
   useEffect(() => {
     async function fetchAvailableFilters() {
@@ -33,59 +34,62 @@ export function PriceFilter({ onPriceFilterChange }: PriceFilterProps) {
           searchText
         );
 
-        setPriceFilters(availableFilters);
+        dispatch(setPriceFilters(availableFilters));
       } catch (error) {
         console.error("Error fetching available filters:", error);
       }
     }
-
     fetchAvailableFilters();
-  }, [searchText, setPriceFilters]);
+  }, [searchText, dispatch]);
 
   const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMinPrice(event.target.value);
+    dispatch(setMinPrice(event.target.value));
   };
 
   const handleMaxPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMaxPrice(event.target.value);
+    dispatch(setMaxPrice(event.target.value));
   };
 
   const applyCustomPriceFilter = () => {
-    const customFilter = `${minPrice}-${maxPrice}`;
+    const customFilter = `${minPrice || "*"}-${maxPrice || "*"}`;
     onPriceFilterChange(customFilter);
   };
 
   return (
-    <Container>
-      <span>Preço</span>
-      <ul>
-        {priceFilters.map((filter) => (
-          <li key={filter.id}>
-            <a href="#" onClick={() => onPriceFilterChange(filter.id)}>
-              {filter.name.replace("Hasta", "Até").replace("Más", "Mais")} (
-              {filter.results})
-            </a>
-          </li>
-        ))}
-      </ul>
-      <Content>
-        <input
-          type="text"
-          placeholder="Mínimo"
-          value={minPrice}
-          onChange={handleMinPriceChange}
-        />
-        <span>-</span>
-        <input
-          type="text"
-          placeholder="Máximo"
-          value={maxPrice}
-          onChange={handleMaxPriceChange}
-        />
-        <button onClick={applyCustomPriceFilter}>
-          <Image src={RightArrow} alt="Seta" width={20} height={20} />
-        </button>
-      </Content>
-    </Container>
+    <>
+      {products.length > 0 && (
+        <Container>
+          <span>Preço</span>
+          <ul>
+            {priceFilters.map((filter) => (
+              <li key={filter.id}>
+                <a href="#" onClick={() => onPriceFilterChange(filter.id)}>
+                  {filter.name.replace("Hasta", "Até").replace("Más", "Mais")} (
+                  {filter.results})
+                </a>
+              </li>
+            ))}
+          </ul>
+          <Content>
+            <input
+              type="text"
+              placeholder="Mínimo"
+              value={minPrice}
+              onChange={handleMinPriceChange}
+            />
+            <span>-</span>
+            <input
+              type="text"
+              placeholder="Máximo"
+              value={maxPrice}
+              onChange={handleMaxPriceChange}
+            />
+            <button onClick={applyCustomPriceFilter}>
+              <Image src={RightArrow} alt="Seta" width={20} height={20} />
+            </button>
+          </Content>
+        </Container>
+      )}
+    </>
   );
 }
