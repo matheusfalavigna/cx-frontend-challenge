@@ -2,24 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 3rem auto;
+`;
 
-  ul {
-    overflow: hidden;
-    border-radius: 0.5rem;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
-    background: white;
-
-    .container {
-      padding: 1rem;
-    }
-  }
-
-  .divider {
-    width: 100%;
-    height: 1px;
-    margin: 0 auto;
-    background: var(--gray);
-  }
+export const Content = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
