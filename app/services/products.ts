@@ -1,4 +1,4 @@
-import { Product } from "@/hook/ProductContext";
+import { Product } from "@/types/types";
 
 export const searchProducts = async (
   searchText: string,
