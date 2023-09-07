@@ -5,7 +5,14 @@ import { Container, Content } from "./PriceFilter.style";
 import Image from "next/image";
 import RightArrow from "@/public/rightArrow.svg";
 import { setMaxPrice, setMinPrice, setPriceFilters } from "@/hook/filtersSlice";
-import { Filters } from "@/types/types";
+import { Filters, Product } from "@/types/types";
+
+interface RowStateWithProducts extends Product {
+  products: {
+    searchText: string;
+    products: Product[];
+  };
+}
 
 interface RowStateWithFilters extends Filters {
   filters: {
@@ -25,7 +32,9 @@ export function PriceFilter({ onPriceFilterChange }: PriceFilterProps) {
   const { priceFilters, minPrice, maxPrice } = useSelector(
     (state: RowStateWithFilters) => state.filters
   );
-  const { searchText, products } = useSelector((state: any) => state.products);
+  const { searchText, products } = useSelector(
+    (state: RowStateWithProducts) => state.products
+  );
 
   useEffect(() => {
     async function fetchAvailableFilters() {
@@ -43,16 +52,19 @@ export function PriceFilter({ onPriceFilterChange }: PriceFilterProps) {
   }, [searchText, dispatch]);
 
   const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setMinPrice(event.target.value));
+    dispatch(setMinPrice(event.target.value.replace(/[^0-9]/g, "")));
   };
 
   const handleMaxPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setMaxPrice(event.target.value));
+    dispatch(setMaxPrice(event.target.value.replace(/[^0-9]/g, "")));
   };
 
   const applyCustomPriceFilter = () => {
     const customFilter = `${minPrice || "*"}-${maxPrice || "*"}`;
     onPriceFilterChange(customFilter);
+
+    dispatch(setMinPrice(""));
+    dispatch(setMaxPrice(""));
   };
 
   return (
